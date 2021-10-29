@@ -1,13 +1,16 @@
 package com.revature.dao;
 
+import com.revature.main.Main;
 import com.revature.model.Reimbursement;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ReimbursementDAO {
 
+    Logger log = Logger.getLogger(Main.class.getName());
     private Connection connection = null;
     private PreparedStatement preparedStment = null;
     private Statement statement = null;
@@ -17,9 +20,10 @@ public class ReimbursementDAO {
         Class.forName("org.postgresql.Driver");
         connection = DriverManager.getConnection(
                 "jdbc:postgresql://database-1.cuodwo1rggyl.us-east-2.rds.amazonaws.com/", "postgres", "Senrac02!");
+        log.info("database connected");
     }
 
-    private static ReimbursementDAO rDAO = null;
+    private static ReimbursementDAO rDAO = new ReimbursementDAO();
 
     private ReimbursementDAO(){}
 
@@ -62,6 +66,7 @@ public class ReimbursementDAO {
             reimbursement.setStatus(result.getInt("status"));
             reimbursement.setSubmit_date(result.getString("date"));
             reimbursement.setManager_note(result.getString("manager_note"));
+            reimbursements.add(reimbursement);
 
         }
 
@@ -86,10 +91,12 @@ public class ReimbursementDAO {
     }
 
 
-    public void deleteReimbursement(Reimbursement reimbursement) throws SQLException {
+    public boolean deleteReimbursement(Reimbursement reimbursement) throws SQLException {
         String sql = "DELETE FROM reimbursement_project.reimbursement WHERE username = ?";
         preparedStment = connection.prepareStatement(sql);
         result = preparedStment.executeQuery();
+
+        return true;
     }
 
     public Reimbursement updateReimbursement(Reimbursement reimbursement) throws SQLException {
@@ -104,6 +111,7 @@ public class ReimbursementDAO {
             preparedStment.setString(4, reimbursement.getEmployee_note());
             preparedStment.setString(5, reimbursement.getManager_note());
             if (preparedStment.executeUpdate() > 0) {
+                log.info("record updated");
                 return reimbursement;
             }
 

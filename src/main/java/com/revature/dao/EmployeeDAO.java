@@ -13,7 +13,7 @@ public class EmployeeDAO {
     private Statement statement = null;
     private ResultSet result = null;
 
-    private static EmployeeDAO employee = null;
+    private static EmployeeDAO employee = new EmployeeDAO();
 
     public static EmployeeDAO instance(){
         if(employee == null)

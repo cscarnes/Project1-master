@@ -10,7 +10,7 @@ public class EmployeeService {
 
     private static EmployeeService eService = null;
 
-    private EmployeeDAO eDAO;
+    private static EmployeeDAO eDAO = EmployeeDAO.instance();
 
     private EmployeeService() {
     }

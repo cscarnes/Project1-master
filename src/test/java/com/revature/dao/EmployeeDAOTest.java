@@ -1,10 +1,17 @@
 package com.revature.dao;
 
+import com.revature.model.Employee;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDAOTest {
+
+    private static EmployeeDAO edao = EmployeeDAO.instance();
 
     @Test
     void instance() {
@@ -15,30 +22,16 @@ class EmployeeDAOTest {
     }
 
     @Test
-    void getUsername() {
+    void getAllEmployees() throws SQLException {
+        List<Employee> result = edao.getAllEmployees();
+
+        Assertions.assertNotEquals(0, result.size());
     }
 
     @Test
-    void getPassword() {
-    }
-
-    @Test
-    void getFirstName() {
-    }
-
-    @Test
-    void getLastName() {
-    }
-
-    @Test
-    void getRole() {
-    }
-
-    @Test
-    void getAllEmployees() {
-    }
-
-    @Test
-    void getEmployeeById() {
+    void getEmployeeById() throws SQLException {
+        List<Employee> employees = edao.getAllEmployees();
+        Employee updateMe = employees.get(employees.size()-1);
+        //   Employee result = edao.getEmployeeById(updateMe.getClass());
     }
 }
